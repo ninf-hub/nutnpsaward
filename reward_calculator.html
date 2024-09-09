@@ -76,21 +76,17 @@
             primaryAwards = primaryAwards % 5;  // 剩餘的初級卡格數
 
             intermediateCard += Math.floor(primaryCard / 5);  // 5張初級卡 = 1張中級卡
-            primaryCard = primaryCard % 5;  // 剩餘的初級卡數
+            primaryAwards += (primaryCard % 5) * 5;  // 把剩餘初級卡轉回初級卡格數
 
             highCard += Math.floor(intermediateCard / 5);  // 5張中級卡 = 1張高級卡
-            intermediateCard = intermediateCard % 5;  // 剩餘的中級卡數
+            primaryAwards += (intermediateCard % 5) * 25;  // 把剩餘中級卡轉回初級卡格數
 
             var certificates = Math.floor(highCard / 5);  // 5張高級卡 = 1張榮譽狀
-            highCard = highCard % 5;  // 剩餘的高級卡數
+            primaryAwards += (highCard % 5) * 125;  // 把剩餘高級卡轉回初級卡格數
 
             // 顯示結果
             document.getElementById('result').innerText = "榮譽狀數量: " + certificates;
-            document.getElementById('remaining').innerText = 
-                "剩餘的高級卡: " + highCard + " 張\n" +
-                "剩餘的中級卡: " + intermediateCard + " 張\n" +
-                "剩餘的初級卡: " + primaryCard + " 張\n" +
-                "剩餘的初級卡格: " + primaryAwards + " 格";
+            document.getElementById('remaining').innerText = "剩餘初級獎格數: " + primaryAwards + " 格";
         }
     </script>
 
