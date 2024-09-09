@@ -43,7 +43,7 @@
         <label for="lifeModel">生活楷模張數:</label>
         <input type="number" id="lifeModel" min="0">
 
-        <label for="primaryAwards">初級卡格數:</label>
+        <label for="primaryAwards">初級獎格數:</label>
         <input type="number" id="primaryAwards" min="0">
 
         <label for="primaryCard">初級卡張數:</label>
@@ -59,6 +59,7 @@
 
         <h3 id="result"></h3>
         <p id="remaining"></p>
+        <p id="lifeModelsRemaining"></p>
     </div>
 
     <script>
@@ -70,23 +71,26 @@
             var intermediateCard = parseInt(document.getElementById('intermediateCard').value) || 0;
             var highCard = parseInt(document.getElementById('highCard').value) || 0;
 
-            // 計算轉換
+            // 轉換生活楷模為初級獎格數
             primaryAwards += Math.floor(lifeModel / 5);  // 5張生活楷模 = 1格初級獎
-            primaryCard += Math.floor(primaryAwards / 5);  // 5格初級獎 = 1張初級卡
-            primaryAwards = primaryAwards % 5;  // 剩餘的初級卡格數
 
-            intermediateCard += Math.floor(primaryCard / 5);  // 5張初級卡 = 1張中級卡
-            primaryAwards += (primaryCard % 5) * 5;  // 把剩餘初級卡轉回初級卡格數
+            // 轉換初級卡為初級獎格數
+            primaryAwards += primaryCard * 5;  // 1張初級卡 = 5格初級獎
 
-            highCard += Math.floor(intermediateCard / 5);  // 5張中級卡 = 1張高級卡
-            primaryAwards += (intermediateCard % 5) * 25;  // 把剩餘中級卡轉回初級卡格數
+            // 轉換中級卡為初級獎格數
+            primaryAwards += intermediateCard * 5;  // 1張中級卡 = 5格初級獎
 
-            var certificates = Math.floor(highCard / 5);  // 5張高級卡 = 1張榮譽狀
-            primaryAwards += (highCard % 5) * 125;  // 把剩餘高級卡轉回初級卡格數
+            // 轉換高級卡為初級獎格數
+            primaryAwards += highCard * 25;  // 1張高級卡 = 25格初級獎
+
+            // 計算榮譽狀數量
+            var certificates = Math.floor(primaryAwards / 125);  // 1張榮譽狀 = 125格初級獎
+            primaryAwards = primaryAwards % 125;  // 剩餘初級獎格數
 
             // 顯示結果
-            document.getElementById('result').innerText = "榮譽狀數量: " + certificates;
+            document.getElementById('result').innerText = "榮譽狀數量: " + certificates + " 張";
             document.getElementById('remaining').innerText = "剩餘初級獎格數: " + primaryAwards + " 格";
+            document.getElementById('lifeModelsRemaining').innerText = "剩餘生活楷模: " + (lifeModel % 5) + " 張";
         }
     </script>
 
