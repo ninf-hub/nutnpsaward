@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>獎卡計算機</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>獎卡計算機</h2>
+        <label for="lifeModel">生活楷模張數:</label>
+        <input type="number" id="lifeModel" min="0">
+
+        <label for="primaryAwards">初級卡格數:</label>
+        <input type="number" id="primaryAwards" min="0">
+
+        <label for="primaryCard">初級卡張數:</label>
+        <input type="number" id="primaryCard" min="0">
+
+        <label for="intermediateCard">中級卡張數:</label>
+        <input type="number" id="intermediateCard" min="0">
+
+        <label for="highCard">高級卡張數:</label>
+        <input type="number" id="highCard" min="0">
+
+        <button onclick="calculateCertificates()">計算榮譽狀</button>
+
+        <h3 id="result"></h3>
+        <p id="remaining"></p>
+    </div>
+
+    <script>
+        function calculateCertificates() {
+            // 讀取輸入值
+            var lifeModel = parseInt(document.getElementById('lifeModel').value) || 0;
+            var primaryAwards = parseInt(document.getElementById('primaryAwards').value) || 0;
+            var primaryCard = parseInt(document.getElementById('primaryCard').value) || 0;
+            var intermediateCard = parseInt(document.getElementById('intermediateCard').value) || 0;
+            var highCard = parseInt(document.getElementById('highCard').value) || 0;
+
+            // 計算轉換
+            primaryAwards += Math.floor(lifeModel / 5);  // 5張生活楷模 = 1格初級獎
+            primaryCard += Math.floor(primaryAwards / 5);  // 5格初級獎 = 1張初級卡
+            primaryAwards = primaryAwards % 5;  // 剩餘的初級卡格數
+
+            intermediateCard += Math.floor(primaryCard / 5);  // 5張初級卡 = 1張中級卡
+            primaryCard = primaryCard % 5;  // 剩餘的初級卡數
+
+            highCard += Math.floor(intermediateCard / 5);  // 5張中級卡 = 1張高級卡
+            intermediateCard = intermediateCard % 5;  // 剩餘的中級卡數
+
+            var certificates = Math.floor(highCard / 5);  // 5張高級卡 = 1張榮譽狀
+            highCard = highCard % 5;  // 剩餘的高級卡數
+
+            // 顯示結果
+            document.getElementById('result').innerText = "榮譽狀數量: " + certificates;
+            document.getElementById('remaining').innerText = 
+                "剩餘的高級卡: " + highCard + " 張\n" +
+                "剩餘的中級卡: " + intermediateCard + " 張\n" +
+                "剩餘的初級卡: " + primaryCard + " 張\n" +
+                "剩餘的初級卡格: " + primaryAwards + " 格";
+        }
+    </script>
+
+</body>
+</html>
